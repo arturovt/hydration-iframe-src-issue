@@ -1,0 +1,20 @@
+diff --git a/node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs b/node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
+index d722a1c..807c0ab 100755
+--- a/node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
++++ b/node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs
+@@ -587,7 +587,14 @@ class DefaultDomRenderer2 {
+             }
+         }
+         else {
+-            el.setAttribute(name, value);
++            if (typeof window !== 'undefined' && window.fixEnabled) {
++                const attrVal = el.getAttribute(name);
++                if (attrVal !== value) {
++                    el.setAttribute(name, value);
++                }
++            } else {
++                el.setAttribute(name, value);    
++            }
+         }
+     }
+     removeAttribute(el, name, namespace) {
